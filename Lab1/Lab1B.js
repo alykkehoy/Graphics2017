@@ -9,21 +9,20 @@
  */
 
 function valueToGray(v){
+	v = Math.floor(v);
   return "rgb(" + v + "," + v + "," + v + ")";
 }
 
-function render(){
+function render(gamma){
   var canvas = document.getElementById("viewport-main");
   var ctx = canvas.getContext('2d');
-
-  var gamma = document.getElementById("gamma");
 
   RECT_WIDTH = 75;
   value = 0;
 
   rectIndex = 0;
   while (rectIndex < 17) {
-    ctx.fillStyle = valueToGray(value);
+    ctx.fillStyle = valueToGray(255 * Math.pow((value / 255), gamma));
     ctx.fillRect(rectIndex * RECT_WIDTH, 0, RECT_WIDTH, canvas.height);
     rectIndex++;
     value += 16;

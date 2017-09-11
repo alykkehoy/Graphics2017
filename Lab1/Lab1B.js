@@ -22,7 +22,7 @@ function render(gamma){
 
   rectIndex = 0;
   while (rectIndex < 17) {
-    ctx.fillStyle = valueToGray(255 * Math.pow((value / 255), gamma));
+    ctx.fillStyle = valueToGray(255 * Math.pow((value / 255), (1 / gamma)));
     ctx.fillRect(rectIndex * RECT_WIDTH, 0, RECT_WIDTH, canvas.height);
     rectIndex++;
     value += 16;

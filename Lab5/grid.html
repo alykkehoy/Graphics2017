@@ -25,6 +25,9 @@ attribute vec4 vPosition; // vert attribs bound to array buffer data
 uniform vec4 color; // uniform value shared across all vertices
 varying vec4 vColor; // sent down to later stages of the pipeline
 
+uniform mat4 proj;
+uniform mat4 mv;
+
 void main() 
 {
     // blend the app-defined color with the "height" coordinate
@@ -35,7 +38,7 @@ void main()
 
     // some per-object matrix ops now done at app level
     // but final matrix chain is processed here
-    gl_Position = vPosition;
+    gl_Position = proj * mv * vPosition;
 }
   </script>
 
@@ -66,6 +69,8 @@ main()
     <input id="greenIn" type="text" placeholder="How much green (0-1)?"/>
     <input id="blueIn" type="text" placeholder="How much blue (0-1)?"/>
     <button id="colorBtn">Set Color</button>
+	<button id="viewBtn">Switch View</button>
+	<button id="rotateBtn">Toggle Rotate</button>
 </body>
 </html>
 

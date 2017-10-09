@@ -1,0 +1,61 @@
+<!doctype html>
+<!--
+    tristrip.html - Demonstrates rendering and animation of simple cube objects
+
+    GOAL Display a randomized height map in a regular XZ grid. The vertices
+        should be specified just once, and an array of indices used along
+        with drawElements in order to render the grid via triangle strips.
+
+    TODO There are various smaller todo items throughout the three source
+        files for this assignment. In addition, as described above, you must
+        decide how to manage the start and stop of each animation sequence.
+        Depending on your approach, this will likely require one or more
+        new functions rather than simply modifying existing functions.
+-->
+<html>
+<head>
+  <title>WebGL Triangle Strip</title>
+  <meta charset="utf-8"/>
+  <style type="text/css">
+    canvas { background: #000; }
+  </style>
+
+  <script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition; // vert attribs bound to array buffer data 
+varying vec4 vColor; // sent down to later stages of the pipeline
+
+void main() 
+{
+    vColor.rgb = vec3( vPosition.z, vPosition.z, vPosition.z );
+
+    // some per-object matrix ops now done at app level
+    // but final matrix chain is processed here
+    gl_Position = vPosition;
+}
+  </script>
+
+  <script id="fragment-shader" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec4 vColor;
+
+void
+main()
+{
+    gl_FragColor = vColor;
+}
+  </script>
+
+  <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+  <script type="text/javascript" src="../Common/initShaders.js"></script>
+  <script type="text/javascript" src="../Common/MV.js"></script>
+  <script type="text/javascript" src="tristrip-oo.js"></script>
+</head>
+<body style="background-color:black;text-align:center;">
+    <canvas id="gl-canvas" width="720" height="720">Oops ...
+        your browser doesn't support the HTML5 canvas element</canvas>
+</body>
+</html>
+

@@ -153,7 +153,7 @@
 				if (!(code0 | code1)) {
 					lines.push(new Point(x0, y0, 0), new Point(x1, y1, 0));
 					break;
-				} else if (!(code0 & code1)) {
+				} else if (code0 & code1) {
 					clippedLines.push(new Point(x0, y0, 0), new Point(x1, y1, 0));
 					break;
 				} else {
@@ -171,11 +171,11 @@
 					} else if (codeOut & TOP) { /* You must derive and implement TOP */
                         /* TODO */
 						y = yMax;
-						//x = x0 + (yMax - y0) * delX / delY;
+						x = x0 + delX * (yMax - y0) / delY;
 					} else if (codeOut & BOTTOM) { /* You must derive and implement BOTTOM */
                         /* TODO */
 						y = yMin;
-						//x = x0 + (yMin - y0) * delX / delY;
+						x = x0 + delX * (yMin - y0) / delY;
 					}
 					
 					if (codeOut == code0) {
@@ -184,11 +184,12 @@
 						x0 = x;
 						y0 = y;
 						code0 = computeOutCode(x0, y0);
-					} else { /* (x2,y2) was outside. What part of the line gets discarded? */
-                             /*                      What is the outcode for new endpoint? */
+					} else {
                         /* TODO */
-						//x1 = x;
-						//y1 = y;
+                        clippedLines.push(new Point(x, y, 0), new Point(x1, y1, 0));
+
+                        x1 = x;
+						y1 = y;
 						code1 = computeOutCode(x1, y1);
 					}
 				}

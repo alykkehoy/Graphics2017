@@ -192,32 +192,38 @@ function View(colorBackground, sizeInPixels)
     /* Endpoints (X1,Y1) and (X2,Y2) are startPos and endPos, respectively. */
 	View.prototype.drawLineDDA = function(color, startPos, endPos)
 	{
-        var dy = 0; // = ? TODO initialize from endpoints
-        var dx = 0; // = ? TODO initialize from endpoints
-        var m;       // slope of the line
-        var x, y;    // algorithm increments x or y, depending on slope
+        var dy = endPos.y - startPos.y; // = ? TODO initialize from endpoints
+        var dx = endPos.x - startPos.x; // = ? TODO initialize from endpoints
+        var m = dy / dx;       // slope of the line
+        var x, y;// algorithm increments x or y, depending on slope
 
-        /*TODO*/;   // draw the pixel corresponding to the left endpoint
+        this.drawPixel(color, new Coords(startPos.x, startPos.y));/*TODO*/  // draw the pixel corresponding to the left endpoint
                     // (see draw_pixel() in render.cpp)
 
         // Shallow slope case: start at X1 and on scanline Y1, then  
         // increment X1, going to the next scanline when necessary,
         // until we get to the second endpoint (X2,Y2)
 
-        if( 0 ) // TODO test for |slope| < 1 ... => shallow slope
-        {               
-            m = 0;      // = ? TODO compute slope in the usual way: rise over run
-            dx = 0;     // = ? TODO should we increment X1 by -1 (go left) or by +1 (go right) ?
+        if( Math.abs(m) < 1 ) // TODO test for |slope| < 1 ... => shallow slope
+        {
+            m = dy / dx;      // = ? TODO compute slope in the usual way: rise over run
+            dx = 1;     // = ? TODO should we increment X1 by -1 (go left) or by +1 (go right) ?
+            if(startPos.x > endPos.x){
+                temp = endPos;
+                endPos = startPos;
+                startPos = temp;
+            }
+            x = startPos.x;
 
             m *= dx;    // slope can be positive or negative
             y = startPos.y;     // start on the first endpoint's scanline
 
             // Going from X1 to X2 ...
-            while ( 0 )     // TODO loop until we reach the second endpoint
+            while ( x < endPos.x )     // TODO loop until we reach the second endpoint
             {
-                /*TODO*/;   // step to next x value
-                /*TODO*/;   // add slope to y value
-                /*TODO*/;   // draw this pixel
+                x += dx;/*TODO*/   // step to next x value
+                y += m;/*TODO*/   // add slope to y value
+                this.drawPixel(color, new Coords(x, y));/*TODO*/   // draw this pixel
             }
         }
 
@@ -226,20 +232,27 @@ function View(colorBackground, sizeInPixels)
         // going to the next X value when necessary, until we get to the 2nd endpoint (X2,Y2)
 
         else // |slope| >= 1 ... => steep slope
-        {                                     
-            m  = 0; // = ? TODO compute slope as "rise" over "run"; dx and dy are switched!
-            dy = 0; // = ? TODO should we increment Y1 by -1 (go down) or by +1 (go up) ?
+        {
+            m  = dx / dy; // = ? TODO compute slope as "rise" over "run"; dx and dy are switched!
+            dy = 1; // = ? TODO should we increment Y1 by -1 (go down) or by +1 (go up) ?
                     // (That depends on the top-bottom order of Y1 and Y2)
+            if(startPos.y > endPos.y){
+                temp = endPos;
+                endPos = startPos;
+                startPos = temp;
+            }
+            y = startPos.y;
 
             m *= dy;    // slope can be positive or negative
             x = startPos.x;     // start at the first endpoint in x
 
+
             // Going from Y1 to Y2 ...
-            while ( 0 )     // TODO loop until we reach the second endpoint
+            while ( y < endPos.y )     // TODO loop until we reach the second endpoint
             {
-                /*TODO*/;   // step to next y value
-                /*TODO*/;   // add slope to x value
-                /*TODO*/;   // draw this pixel
+                y += dy;/*TODO*/   // step to next y value
+                x += m;/*TODO*/  // add slope to x value
+                this.drawPixel(color, new Coords(x, y));/*TODO*/   // draw this pixel
             }
         }
 
@@ -263,8 +276,8 @@ function View(colorBackground, sizeInPixels)
 			endPos = tmp;	/* reverse the endpoints */
 		}
 
-		dx /* = ? */;		/* TODO (computed as usual) */ 
-		dy /* = ? */;		/* TODO (computed as an absolute value; ystep takes care of direction) */
+		dx = endPos.x - startPos.x;		/* TODO (computed as usual) */
+		dy = endPos.y - startPos.y;		/* TODO (computed as an absolute value; ystep takes care of direction) */
 		e  = 0;		/* (no error, initially) */
 		de = dy;	/* (value to adjust error term by) */
 		y  = startPos.y;	/* (start on first endpoint's scanline) */
@@ -275,16 +288,15 @@ function View(colorBackground, sizeInPixels)
 			/* ? = ? */;		/* TODO (y increment will be negative) */
 
 		/* TODO Loop from X1 to X2	('X' really is 'Y' if this is steep slope case) */
-		for ( x  /* = ? */;  0 /* test? */; ++x )
+		for ( x = startPos.x;  x < endPos.x; ++x )
 		{
-			;	/* TODO Draw the pixel (this will require multiple lines)
+			this.drawPixel(color, Coords(x, y));	/* TODO Draw the pixel (this will require multiple lines)
 					Remember: steep slope case swaps x and y!*/
-
-			;	/* TODO Add to the error term */
-			if ( 0 )	/* TODO See if y increments */
+			e = e + dy;	/* TODO Add to the error term */
+			if ( e >= 0 )	/* TODO See if y increments */
 			{
-				;	/* TODO Increment y */
-				;	/* TODO Reset error term */
+				y++;	/* TODO Increment y */
+				e = e - 2 * dx;	/* TODO Reset error term */
 			}
 		}
 	}

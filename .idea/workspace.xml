@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="57b3c38c-9d11-4889-8b84-3f0604dc2a38" name="Default" comment="" />
+    <list default="true" id="57b3c38c-9d11-4889-8b84-3f0604dc2a38" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Lab8/gouraudSphere.html" afterPath="$PROJECT_DIR$/Lab8/gouraudSphere.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Lab8/phongSphere.html" afterPath="$PROJECT_DIR$/Lab8/phongSphere.html" />
+    </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -14,11 +17,31 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="bresenham.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/Lab6/LineDrawing/bresenham.html">
+      <file leaf-file-name="gouraudSphere.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Lab8/gouraudSphere.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1212">
-              <caret line="307" column="21" lean-forward="false" selection-start-line="307" selection-start-column="4" selection-end-line="307" selection-end-column="21" />
+            <state relative-caret-position="646">
+              <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="sphere.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Lab8/sphere.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1217">
+              <caret line="170" column="7" lean-forward="false" selection-start-line="170" selection-start-column="4" selection-end-line="170" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="phongSphere.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Lab8/phongSphere.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="408">
+              <caret line="24" column="29" lean-forward="false" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
               <folding />
             </state>
           </provider>
@@ -32,6 +55,7 @@
       <find>pos</find>
       <find>drawLineDDA</find>
       <find>drawLineBresenham</find>
+      <find>gl.uniform</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -43,6 +67,8 @@
         <option value="$USER_HOME$/AppData/Local/Temp/clipping.html" />
         <option value="$PROJECT_DIR$/Lab6/LineClipping/clipping.html" />
         <option value="$PROJECT_DIR$/Lab6/LineDrawing/bresenham.html" />
+        <option value="$PROJECT_DIR$/Lab8/gouraudSphere.html" />
+        <option value="$PROJECT_DIR$/Lab8/phongSphere.html" />
       </list>
     </option>
   </component>
@@ -52,8 +78,8 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="-7" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="1273" />
     <option name="width" value="1294" />
     <option name="height" value="1407" />
   </component>
@@ -83,13 +109,7 @@
             <path>
               <item name="Graphics2017" type="b2602c69:ProjectViewProjectNode" />
               <item name="Graphics2017" type="462c0819:PsiDirectoryNode" />
-              <item name="Lab7" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Graphics2017" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Graphics2017" type="462c0819:PsiDirectoryNode" />
-              <item name="Lab7" type="462c0819:PsiDirectoryNode" />
-              <item name="LineClipping" type="462c0819:PsiDirectoryNode" />
+              <item name="Lab8" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -125,7 +145,7 @@
       <option name="presentableId" value="Default" />
       <updated>1509495061689</updated>
       <workItem from="1509495063701" duration="10793000" />
-      <workItem from="1510079664235" duration="21000" />
+      <workItem from="1510079664235" duration="5020000" />
     </task>
     <task id="LOCAL-00001" summary="fixed line clipping from lab6">
       <created>1509496657566</created>
@@ -145,12 +165,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="10814000" />
+    <option name="totallyTimeSpent" value="15813000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1294" height="1407" extended-state="1" />
+    <frame x="1273" y="0" width="1294" height="1407" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20813772" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20813772" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -210,6 +231,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="204">
           <caret line="157" column="26" lean-forward="true" selection-start-line="157" selection-start-column="26" selection-end-line="157" selection-end-column="26" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -224,6 +246,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1212">
           <caret line="307" column="21" lean-forward="false" selection-start-line="307" selection-start-column="4" selection-end-line="307" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lab8/sphere.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1217">
+          <caret line="170" column="7" lean-forward="false" selection-start-line="170" selection-start-column="4" selection-end-line="170" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lab8/phongSphere.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="29" lean-forward="false" selection-start-line="24" selection-start-column="29" selection-end-line="24" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Lab8/gouraudSphere.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="646">
+          <caret line="47" column="0" lean-forward="true" selection-start-line="47" selection-start-column="0" selection-end-line="47" selection-end-column="0" />
           <folding />
         </state>
       </provider>

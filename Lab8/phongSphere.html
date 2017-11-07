@@ -7,6 +7,8 @@ attribute vec4 vPosition;
 attribute vec4 vNormal;
 
 // TODO Declare varying attributes to pass required vectors to fragment shader
+varying vec3 L;
+varying vec3 N;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
@@ -20,8 +22,8 @@ void main()
     // Transform vertex normal into eye coordinates
     N = normalize( (modelViewMatrix*vNormal).xyz);
 
-    L = /* TODO Compute L */;
-    E = /* TODO Compute E */;
+    L = normalize(light - pos);/* TODO Compute L */
+   // E = /* TODO Compute E */;
 
     gl_Position = projectionMatrix * modelViewMatrix * vPosition;
 
@@ -33,23 +35,29 @@ void main()
 precision mediump float;
 
 // TODO Declare varying attributes to get required vectors from vertex shader
+varying vec3 L;
+varying vec3 N;
 
 // TODO Declare uniform variables to get surface properties from the application
+uniform float shininess;
+uniform vec4 ambientProduct;
+uniform vec4 diffuseProduct;
+uniform vec4 specularProduct;
 
 void main()
 {
     vec4 fColor;
 
-    vec3 H = /* TODO Compute H */;
+   // vec3 H = /* TODO Compute H */;
 
     // Compute terms in the illumination equation
     vec4 ambient = ambientProduct;
-    vec4  diffuse = /* TODO Compute the diffuse shading component */;
-    vec4  specular = /* TODO Compute the specular shading component */;
+    vec4  diffuse = max(dot(N, L), 0.0) * diffuseProduct;
+    vec4  specular = pow(max(dot(L, N), 0.0), shininess) * specularProduct;
 
     if( dot(L, N) < 0.0 ) specular = vec4(0.0, 0.0, 0.0, 1.0);
 
-    fColor = /* TODO Add all components to compute the final shaded color */;
+    fColor = ambient + diffuse + specular;
     fColor.a = 1.0;
 
     gl_FragColor = fColor;

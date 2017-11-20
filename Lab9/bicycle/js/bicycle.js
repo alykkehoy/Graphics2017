@@ -94,7 +94,7 @@ Bicycle.prototype.pedalFwd = function(){
 }
 
 Bicycle.prototype.pedalRev = function(){
-    // TODO decrease rear wheel rotation speed
+    this.rearWheel.incr -= ONEDEGREE; // increase front wheel rotation speed
 }
 
 Bicycle.prototype.turnRight = function(){
@@ -105,7 +105,7 @@ Bicycle.prototype.turnRight = function(){
 
 Bicycle.prototype.turnLeft = function(){
     if (this.handlebar.rotation.y > MINTURN) {
-        // TODO decrement the handlebar y-rotation by one degree
+        this.handlebar.rotation.y -= ONEDEGREE;
     }
 }
 

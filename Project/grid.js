@@ -80,7 +80,7 @@ var pyramid = [
     //Left face
     1.0, -1.0, -1.0,
     1.0, -1.0,  1.0,
-    0.0, 1.0, 0.0,
+    0.0, 1.0, 0.0
 
     //Back face
 ];
@@ -98,15 +98,13 @@ function initGL(){
     gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // background color
 	gl.enable(gl.DEPTH_TEST);
 
-	// projection = ortho(-10, 10, -10, 10, -10, 10);
-    projection = perspective(60, 1,-10, 10);
+    projection = perspective(60, 1, 0.1, 10);
 
 	modelview = mat4();
-    // modelview = rotate(-75, vec3(1,0,0));
-    // modelview = mult(modelview, rotate(30, vec3(0,0,1)));
+    modelview = mult(modelview, rotate(30, vec3(1,0,0)));
 
-    view = lookAt(vec3(0,0,-2), vec3(0,0,0), vec3(0,1,0));
-	
+    view = lookAt(vec3(0.0,0.0,5.0), vec3(0.0,0.0,0.0), vec3(0.0,1.0,0.0));
+
     return gl; // send this back so that other parts of the program can use it
 }
 
@@ -122,7 +120,6 @@ function loadShaderProgram(gl){
 	program.mvLoc = gl.getUniformLocation(program, "mv");
 
 	program.viewLoc = gl.getUniformLocation(program, "view");
-
 
     return program; // send this back so that other parts of the program can use it
 }
@@ -170,15 +167,13 @@ Shape.prototype.draw = function(gl){
     // send this object's color down to the GPU as a uniform variable
     gl.uniform4fv(this.program.colorLoc, flatten(this.color));
 
-    modelview = mult(modelview, rotate(this.angle, vec3(0,0,1)));
+    modelview = mult(modelview, rotate(this.angle, vec3(0,1,0)));
 
     gl.uniformMatrix4fv(this.program.projLoc, gl.false, flatten(projection));
 	gl.uniformMatrix4fv(this.program.mvLoc, gl.false, flatten(modelview));
-
-    gl.uniformMatrix4fv(this.program.view, gl.false, flatten(view));
+    gl.uniformMatrix4fv(this.program.viewLoc, gl.false, flatten(view));
 
     // render the primitives!
-    // gl.PolygonMode(gl.FRONT_AND_BACK, gl.LINE);
     gl.drawArrays(gl.TRIANGLES, 0, this.vertices.length / 3);
 }
 

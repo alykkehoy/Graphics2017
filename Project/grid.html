@@ -1,0 +1,77 @@
+<!doctype html>
+<!--
+    tristrip.html - Demonstrates rendering and animation of simple cube objects
+
+    GOAL Display a randomized height map in a regular XZ grid. The vertices
+        should be specified just once, and an array of indices used along
+        with drawElements in order to render the grid via triangle strips.
+
+    TODO There are various smaller todo items throughout the three source
+        files for this assignment. In addition, as described above, you must
+        decide how to manage the start and stop of each animation sequence.
+        Depending on your approach, this will likely require one or more
+        new functions rather than simply modifying existing functions.
+-->
+<html>
+<head>
+  <title>WebGL Triangle Strip</title>
+  <meta charset="utf-8"/>
+  <style type="text/css">
+    canvas { background: #000; }
+  </style>
+
+  <script id="vertex-shader" type="x-shader/x-vertex">
+attribute vec4 vPosition; // vert attribs bound to array buffer data 
+uniform vec4 color; // uniform value shared across all vertices
+varying vec4 vColor; // sent down to later stages of the pipeline
+
+uniform mat4 proj;
+uniform mat4 mv;
+uniform mat4 view;
+
+void main() 
+{
+    vColor = color;
+
+    // some per-object matrix ops now done at app level
+    // but final matrix chain is processed here
+    gl_Position = proj * view * mv * vPosition;
+}
+  </script>
+
+  <script id="fragment-shader" type="x-shader/x-fragment">
+#ifdef GL_ES
+precision highp float;
+#endif
+
+varying vec4 vColor;
+
+void
+main()
+{
+    gl_FragColor = vColor;
+}
+  </script>
+
+  <script type="text/javascript" src="../Common/webgl-utils.js"></script>
+  <script type="text/javascript" src="../Common/initShaders.js"></script>
+  <script type="text/javascript" src="../Common/MV.js"></script>
+  <script type="text/javascript" src="grid.js"></script>
+</head>
+<body style="background-color:black;text-align:center;">
+    <canvas id="gl-canvas" width="720" height="720">Oops ...
+        your browser doesn't support the HTML5 canvas element</canvas>
+    <br/>
+
+    <button id="wingedEdge">Winged Edge</button>
+    <button id="halfEdge">Half Edge</button>
+
+    <button id="cube">Cube</button>
+    <button id="pyramid">Pyramid</button>
+    <button id="shape3">Shape 3</button>
+    <br/>
+
+    <div style="color: white; white-space: pre-wrap; text-align: left" id="pseudocode"> text 1</div>
+</body>
+</html>
+

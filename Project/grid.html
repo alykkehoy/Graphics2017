@@ -28,14 +28,32 @@ varying vec4 vColor; // sent down to later stages of the pipeline
 uniform mat4 proj;
 uniform mat4 mv;
 uniform mat4 view;
+uniform float currentFace;
+uniform float numTriangles;
+uniform int mode;
 
 void main() 
 {
-    vColor = color;
+    if(mode == 0){
+        int sideOne = int(mod(currentFace, numTriangles));
+        int sideTwo = int(mod(currentFace + 1.0, numTriangles));
+        if(int(vPosition.w) == sideOne || int(vPosition.w) == sideTwo){
+            vColor = vec4(1.0, 1.0, 1.0, 1.0);
+        } else {
+            vColor = color;
+        }
+    }else {
+        int side = int(mod(currentFace, numTriangles));
+        if(int(vPosition.w) == side){
+            vColor = vec4(1.0, 1.0, 1.0, 1.0);
+        } else {
+            vColor = color;
+        }
+    }
 
     // some per-object matrix ops now done at app level
     // but final matrix chain is processed here
-    gl_Position = proj * view * mv * vPosition;
+    gl_Position = proj * view * mv * vec4(vPosition.xyz, 1.0);
 }
   </script>
 

@@ -2,87 +2,95 @@ var projection;
 var modelview;
 var view;
 var shownShape = 0;
+var numTriangles = 12;
+var mode = 0;
+var face;
+var startTime = Date.now();
 var cube = [
     // Front face
-    -1.0, -1.0,  1.0,
-    1.0, -1.0,  1.0,
-    1.0,  1.0,  1.0,
+    -1.0, -1.0,  1.0, 0.0,
+    1.0, -1.0,  1.0, 0.0,
+    1.0,  1.0,  1.0, 0.0,
 
-    -1.0, -1.0,  1.0,
-    1.0,  1.0,  1.0,
-    -1.0,  1.0,  1.0,
+    -1.0, -1.0,  1.0, 1.0,
+    1.0,  1.0,  1.0, 1.0,
+    -1.0,  1.0,  1.0, 1.0,
 
     // Back face
-    -1.0, -1.0, -1.0,
-    -1.0,  1.0, -1.0,
-    1.0,  1.0, -1.0,
+    -1.0, -1.0, -1.0, 2.0,
+    -1.0,  1.0, -1.0, 2.0,
+    1.0,  1.0, -1.0, 2.0,
 
-    -1.0, -1.0, -1.0,
-    1.0,  1.0, -1.0,
-    1.0, -1.0, -1.0,
+    -1.0, -1.0, -1.0, 3.0,
+    1.0,  1.0, -1.0, 3.0,
+    1.0, -1.0, -1.0, 3.0,
 
     // Top face
-    -1.0,  1.0, -1.0,
-    -1.0,  1.0,  1.0,
-    1.0,  1.0,  1.0,
+    -1.0,  1.0, -1.0, 4.0,
+    -1.0,  1.0,  1.0, 4.0,
+    1.0,  1.0,  1.0, 4.0,
 
-    -1.0,  1.0, -1.0,
-    1.0,  1.0,  1.0,
-    1.0,  1.0, -1.0,
+    -1.0,  1.0, -1.0, 5.0,
+    1.0,  1.0,  1.0, 5.0,
+    1.0,  1.0, -1.0, 5.0,
 
     // Bottom face
-    -1.0, -1.0, -1.0,
-    1.0, -1.0, -1.0,
-    1.0, -1.0,  1.0,
+    -1.0, -1.0, -1.0, 6.0,
+    1.0, -1.0, -1.0, 6.0,
+    1.0, -1.0,  1.0, 6.0,
 
-    -1.0, -1.0, -1.0,
-    1.0, -1.0,  1.0,
-    -1.0, -1.0,  1.0,
+    -1.0, -1.0, -1.0, 7.0,
+    1.0, -1.0,  1.0, 7.0,
+    -1.0, -1.0,  1.0, 7.0,
 
     // Right face
-    1.0, -1.0, -1.0,
-    1.0,  1.0, -1.0,
-    1.0,  1.0,  1.0,
+    1.0, -1.0, -1.0, 8.0,
+    1.0,  1.0, -1.0, 8.0,
+    1.0,  1.0,  1.0, 8.0,
 
-    1.0, -1.0, -1.0,
-    1.0,  1.0,  1.0,
-    1.0, -1.0,  1.0,
+    1.0, -1.0, -1.0, 9.0,
+    1.0,  1.0,  1.0, 9.0,
+    1.0, -1.0,  1.0, 9.0,
 
     // Left face
-    -1.0, -1.0, -1.0,
-    -1.0, -1.0,  1.0,
-    -1.0,  1.0,  1.0,
+    -1.0, -1.0, -1.0, 10.0,
+    -1.0, -1.0,  1.0, 10.0,
+    -1.0,  1.0,  1.0, 10.0,
 
-    -1.0, -1.0, -1.0,
-    -1.0,  1.0,  1.0,
-    -1.0,  1.0, -1.0];
+    -1.0, -1.0, -1.0, 11.0,
+    -1.0,  1.0,  1.0, 11.0,
+    -1.0,  1.0, -1.0, 11.0];
 
 var pyramid = [
     // Bottom face
-    -1.0, -1.0, -1.0,
-    1.0, -1.0, -1.0,
-    1.0, -1.0,  1.0,
+    -1.0, -1.0, -1.0, 0.0,
+    1.0, -1.0, -1.0, 0.0,
+    1.0, -1.0,  1.0, 0.0,
 
-    -1.0, -1.0, -1.0,
-    1.0, -1.0,  1.0,
-    -1.0, -1.0,  1.0,
+    -1.0, -1.0, -1.0, 1.0,
+    1.0, -1.0,  1.0, 1.0,
+    -1.0, -1.0,  1.0, 1.0,
 
     // Front face
-    -1.0, -1.0, -1.0,
-    1.0, -1.0, -1.0,
-    0.0, 1.0, 0.0,
+    -1.0, -1.0, -1.0, 2.0,
+    1.0, -1.0, -1.0, 2.0,
+    0.0, 1.0, 0.0, 2.0,
 
     // Right face
-    -1.0, -1.0, -1.0,
-    1.0, -1.0,  1.0,
-    0.0, 1.0, 0.0,
+    -1.0, -1.0, -1.0, 3.0,
+    -1.0, -1.0,  1.0, 3.0,
+    0.0, 1.0, 0.0, 3.0,
 
     //Left face
-    1.0, -1.0, -1.0,
-    1.0, -1.0,  1.0,
-    0.0, 1.0, 0.0
+    1.0, -1.0, -1.0, 4.0,
+    1.0, -1.0,  1.0, 4.0,
+    0.0, 1.0, 0.0,  4.0,
 
     //Back face
+    -1.0, -1.0,  1.0, 5.0,
+    1.0, -1.0,  1.0, 5.0,
+    0.0, 1.0, 0.0,  5.0
+
 ];
 
 /* Initialize global WebGL stuff - not object specific */
@@ -121,6 +129,12 @@ function loadShaderProgram(gl){
 
 	program.viewLoc = gl.getUniformLocation(program, "view");
 
+    program.currentFaceLoc = gl.getUniformLocation(program, "currentFace");
+
+    program.numTrianglesLoc = gl.getUniformLocation(program, "numTriangles");
+    program.modeLoc = gl.getUniformLocation(program, "mode");
+
+
     return program; // send this back so that other parts of the program can use it
 }
 
@@ -130,6 +144,9 @@ function renderToContext(drawables, gl){
     function renderScene(){
         renderToContext(drawables, gl);
     }
+
+    var elapsedTime = (Date.now() - startTime) / 1000;
+    face = Math.floor(elapsedTime);
 
     // start from a clean frame buffer for this frame
     gl.clear( gl.COLOR_BUFFER_BIT);
@@ -147,13 +164,11 @@ function Shape(gl, program, color, angle, vertices){
     this.vertices = vertices; // this array will hold raw vertex positions
     this.vBufferId = gl.createBuffer(); // reserve a buffer object and store a reference to it
 	this.angle = angle;
+	// console.log(new Float32Array(this.vertices).length);
 	
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBufferId ); // set active array buffer
     // pass data to the graphics hardware (convert JS Array to a typed array)
-    // gl.bufferData( gl.ARRAY_BUFFER, flatten(this.vertices), gl.STATIC_DRAW );
     gl.bufferData( gl.ARRAY_BUFFER, new Float32Array(this.vertices), gl.STATIC_DRAW );
-
-
 }
 
 /* Method allows an object to render itself */
@@ -162,7 +177,7 @@ Shape.prototype.draw = function(gl){
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBufferId ); // set pos buffer active
     // map position buffer data to the corresponding vertex shader attribute
-    gl.vertexAttribPointer( this.program.vposLoc, 3, gl.FLOAT, false, 0 , 0 );
+    gl.vertexAttribPointer( this.program.vposLoc, 4, gl.FLOAT, false, 0 , 0 );
 
     // send this object's color down to the GPU as a uniform variable
     gl.uniform4fv(this.program.colorLoc, flatten(this.color));
@@ -173,8 +188,12 @@ Shape.prototype.draw = function(gl){
 	gl.uniformMatrix4fv(this.program.mvLoc, gl.false, flatten(modelview));
     gl.uniformMatrix4fv(this.program.viewLoc, gl.false, flatten(view));
 
+    gl.uniform1f(this.program.currentFaceLoc, face);
+    gl.uniform1f(this.program.numTrianglesLoc, numTriangles);
+    gl.uniform1i(this.program.modeLoc, mode);
+
     // render the primitives!
-    gl.drawArrays(gl.TRIANGLES, 0, this.vertices.length / 3);
+    gl.drawArrays(gl.TRIANGLES, 0, this.vertices.length / 4);
 }
 
 function wingedEdge(){
@@ -208,18 +227,24 @@ window.onload = function(){
 
     document.getElementById("wingedEdge").addEventListener("click",function(){
         wingedEdge();
+        mode = 0;
     });
 
     document.getElementById("halfEdge").addEventListener("click",function(){
         halfEdge();
+        mode = 1;
     });
 
     document.getElementById("cube").addEventListener("click",function(){
         shownShape = 0;
+        numTriangles = 12;
+        startTime = Date.now();
     });
 
     document.getElementById("pyramid").addEventListener("click",function(){
         shownShape = 1;
+        numTriangles = 6;
+        startTime = Date.now();
     });
 
     var drawables = []; // used to store a list of objects that need to be drawn

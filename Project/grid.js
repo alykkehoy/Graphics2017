@@ -200,13 +200,18 @@ function wingedEdge(){
     document.getElementById("pseudocode").innerHTML = "class WE_Edge {\n" +
         "  WE_Vertex vert1, vert2;\n" +
         "  WE_Face aFace, bFace;\n" +
-        "  WE_Edge aPrev, aNext, bPrev, bNext; // clockwise ordering\n" +
+        "  WE_Edge aPrev, aNext, bPrev, bNext;\n" +
         "  WE_EdgeDataObject data;\n" +
         "}\n" +
+
         "class WE_Vertex {\n" +
+        "  float x;\n" +
+        "  float y;\n" +
+        "  float z;\n" +
         "  List&lt;WE_Edge&gt; edges;\n" +
         "  WE_VertexDataObject data;\n" +
         "}\n" +
+
         "class WE_Face {\n" +
         "  List&lt;WE_Edge&gt; edges;\n" +
         "  WE_FaceDataObject data;\n" +
@@ -214,7 +219,26 @@ function wingedEdge(){
 }
 
 function halfEdge() {
-    document.getElementById("pseudocode").innerHTML = "HalfEdge Pseudocode Here";
+    document.getElementById("pseudocode").innerHTML =
+        "\n" +
+        "struct HE_edge {\n" +
+        "  HE_vert* vert;\n" +
+        "  HE_edge* pair;\n" +
+        "  HE_face* face;\n" +
+        "  HE_edge* next;\n" +
+        "};\n" +
+
+        "struct HE_vert {\n" +
+        "  float x;\n" +
+        "  float y;\n" +
+        "  float z;\n" +
+        "  HE_edge* edge;\n" +
+        "  HE_VertexDataObject data;\n" +
+        "};\n" +
+
+        "class HE_face {\n" +
+        "  HE_edge* edge;\n" +
+        "};";
 }
 
 /* Set up event callback to start the application */

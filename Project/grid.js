@@ -6,6 +6,18 @@ var numTriangles = 12;
 var mode = 0;
 var face;
 var startTime = Date.now();
+var cubeLines =[
+    -1.0, -1.0,  1.0, 0.0,
+    1.0, -1.0,  1.0, 0.0,
+
+    1.0,  1.0,  1.0, 1.0,
+    -1.0,  1.0,  1.0, 1.0,
+
+    -1.0,  1.0, -1.0, 2.0,
+    1.0,  1.0,  1.0, 2.0,
+
+
+];
 var cube = [
     // Front face
     -1.0, -1.0,  1.0, 0.0,
@@ -62,6 +74,25 @@ var cube = [
     -1.0,  1.0, -1.0, 9.0
 ];
 
+var pyramideLines = [
+    -1.0, -1.0, -1.0, 0.0,
+    1.0, -1.0,  1.0, 0.0,
+
+    -1.0, -1.0, -1.0, 1.0,
+    -1.0, -1.0,  1.0, 1.0,
+
+    -1.0, -1.0,  1.0, 2.0,
+    0.0, 1.0, 0.0, 2.0,
+
+    1.0, -1.0,  1.0, 3.0,
+    0.0, 1.0, 0.0,  3.0,
+
+    1.0, -1.0, -1.0, 4.0,
+    0.0, 1.0, 0.0,  4.0,
+
+    -1.0, -1.0, -1.0, 5.0,
+    1.0, -1.0, -1.0, 5.0
+];
 var pyramid = [
     // Bottom face
     -1.0, -1.0, -1.0, 0.0,
@@ -153,18 +184,20 @@ function renderToContext(drawables, gl){
     gl.clear( gl.COLOR_BUFFER_BIT);
 
     drawables[shownShape].draw(gl);
+    drawables[shownShape + 1].draw(gl);
 
     // queue up this same callback for the next frame
     requestAnimFrame(renderScene);
 }
 
 /* Constructor for a grid object (initializes the data). */
-function Shape(gl, program, color, angle, vertices){
+function Shape(gl, program, color, angle, vertices, isLine){
     this.program = program; // save my shader program
     this.color = color; // the color of this grid surface
     this.vertices = vertices; // this array will hold raw vertex positions
     this.vBufferId = gl.createBuffer(); // reserve a buffer object and store a reference to it
 	this.angle = angle;
+	this.isLine = isLine;
 	// console.log(new Float32Array(this.vertices).length);
 	
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBufferId ); // set active array buffer
@@ -194,44 +227,74 @@ Shape.prototype.draw = function(gl){
     gl.uniform1i(this.program.modeLoc, mode);
 
     // render the primitives!
-    gl.drawArrays(gl.TRIANGLES, 0, this.vertices.length / 4);
+    if(this.isLine){
+        gl.uniform1i(this.program.modeLoc, 2);
+        gl.drawArrays(gl.LINES, 0, this.vertices.length / 4);
+    }else {
+        gl.drawArrays(gl.TRIANGLES, 0, this.vertices.length / 4);
+    }
 }
 
 function wingedEdge(){
-    document.getElementById("pseudocode").innerHTML = "class WE_Edge {\n" +
-        "  WE_Vertex vert1, vert2;\n" +
-        "  WE_Face aFace, bFace;\n" +
-        "  WE_Edge aPrev, aNext, bPrev, bNext;\n" +
+    document.getElementById("pseudocode").innerHTML =
+        "class WE_Edge {\n" +
+        "  WE_Vertex *start, *end;\n" +
+        "  WE_Face *leftFace, *rightFace;\n" +
+        "  WE_Edge *leftPrev, *leftNext, *rightPrev, *rightNext;\n" +
         "  WE_EdgeDataObject data;\n" +
-        "}\n" +
+        "};\n" +
 
         "class WE_Vertex {\n" +
-        "  float x;\n" +
-        "  float y;\n" +
-        "  float z;\n" +
-        "  List&lt;WE_Edge&gt; edges;\n" +
+        "  float x, y , z;\n" +
+        "  WE_Edge *edges;\n" +
         "  WE_VertexDataObject data;\n" +
-        "}\n" +
+        "};\n" +
 
         "class WE_Face {\n" +
-        "  List&lt;WE_Edge&gt; edges;\n" +
+        "  *WE_Edge* edge;\n" +
         "  WE_FaceDataObject data;\n" +
-        "}";
+        "};";
+    document.getElementById("table").innerHTML =
+        '    <TABLE BORDER=3 style="color: white">\n' +
+        '        <TR ALIGN=CENTER>\n' +
+        '            <TD> <B><I>Edge</I></B> </TD>\n' +
+        '            <TD COLSPAN=2> <B><I>Vertices</I></B> </TD>\n' +
+        '            <TD COLSPAN=2> <B><I>Faces</I></B> </TD>\n' +
+        '            <TD COLSPAN=2> <B><I>Left Traverse</I></B> </TD>\n' +
+        '            <TD COLSPAN=2> <B><I>Right Traverse</I></B> </TD>\n' +
+        '        </TR>\n' +
+        '        <TR ALIGN=CENTER>\n' +
+        '            <TD> <B><I>Name</I></B> </TD>\n' +
+        '            <TD> <B><I>Start</I></B> </TD>\n' +
+        '            <TD> <B><I>End</I></B> </TD>\n' +
+        '            <TD> <B><I>Left</I></B> </TD>\n' +
+        '            <TD> <B><I>Right</I></B> </TD>\n' +
+        '            <TD> <B><I>Prev</I></B> </TD>\n' +
+        '            <TD> <B><I>Next</I></B> </TD>\n' +
+        '            <TD> <B><I>Prev</I></B> </TD>\n' +
+        '            <TD> <B><I>Next</I></B> </TD>\n' +
+        '        </TR>\n' +
+        '        <TR ALIGN=CENTER>\n' +
+        '            <TD> a </TD>\n' +
+        '            <TD> X </TD>  <TD> Y </TD>\n' +
+        '            <TD> 1 </TD>  <TD> 2 </TD>\n' +
+        '            <TD> b </TD>  <TD> d </TD>\n' +
+        '            <TD> e </TD>  <TD> c </TD>\n' +
+        '        </TR>\n' +
+        '    </TABLE>';
 }
 
 function halfEdge() {
     document.getElementById("pseudocode").innerHTML =
         "class HE_edge {\n" +
         "  HE_vert* vert;\n" +
-        "  HE_edge* pair;\n" +
         "  HE_face* face;\n" +
-        "  HE_edge* next;\n" +
+        "  HE_edge* prev, next;\n" +
+        "  HE_edge* pair;\n" +
         "};\n" +
 
         "class HE_vert {\n" +
-        "  float x;\n" +
-        "  float y;\n" +
-        "  float z;\n" +
+        "  float x, y, z;\n" +
         "  HE_edge* edge;\n" +
         "  HE_VertexDataObject data;\n" +
         "};\n" +
@@ -239,7 +302,33 @@ function halfEdge() {
         "class HE_face {\n" +
         "  HE_edge* edge;\n" +
         "};";
-}
+
+    document.getElementById("table").innerHTML =
+        '    <TABLE BORDER=3 style="color: white">\n' +
+        '        <TR ALIGN=CENTER>\n' +
+        '            <TD> <B><I>Edge</I></B> </TD>\n' +
+        '            <TD> <B><I>Vertice</I></B> </TD>\n' +
+        '            <TD> <B><I>Pair</I></B> </TD>\n' +
+        '            <TD> <B><I>Face</I></B> </TD>\n' +
+        '            <TD colspan="2"> <B><I>Traverse</I></B> </TD>\n' +
+        '        </TR>\n' +
+        '        <TR ALIGN=CENTER>\n' +
+        '            <TD> <B><I>Name</I></B> </TD>\n' +
+        '            <TD> <B><I>Start</I></B> </TD>\n' +
+        '            <TD> </TD>\n' +
+        '            <TD> </TD>\n' +
+        '            <TD> <B><I>Prev</I></B> </TD>\n' +
+        '            <TD> <B><I>Next</I></B> </TD>\n' +
+        '        </TR>\n' +
+        '        <TR ALIGN=CENTER>\n' +
+        '            <TD> a </TD>\n' +
+        '            <TD> X </TD>' +
+        '            <TD> f </TD>' +
+        '            <TD> 2 </TD> ' +
+        '            <TD> e </TD>' +
+        '            <TD> c </TD>' +
+        '        </TR>\n' +
+        '    </TABLE>';}
 
 /* Set up event callback to start the application */
 window.onload = function(){
@@ -266,14 +355,16 @@ window.onload = function(){
     });
 
     document.getElementById("pyramid").addEventListener("click",function(){
-        shownShape = 1;
+        shownShape = 2;
         numTriangles = 6;
         startTime = Date.now();
     });
 
     var drawables = []; // used to store a list of objects that need to be drawn
-    drawables.push( new Shape(gl, prog, vec4(0,0,1,1), 1, cube) );
-    drawables.push( new Shape(gl, prog, vec4(1,0,0,1), 1, pyramid) );
+    drawables.push( new Shape(gl, prog, vec4(0,0,1,1), 0.5, cube, false) );
+    drawables.push( new Shape(gl, prog, vec4(0,0,1,1), 0, cubeLines, true) );
+    drawables.push( new Shape(gl, prog, vec4(1,0,0,1), 0.5, pyramid, false) );
+    drawables.push( new Shape(gl, prog, vec4(0,0,1,1), 0, pyramideLines, true) );
 
     renderToContext(drawables, gl); // start drawing the scene
 }

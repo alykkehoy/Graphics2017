@@ -34,6 +34,7 @@ uniform int mode;
 
 void main() 
 {
+    //winged edge
     if(mode == 0){
         int sideOne = int(mod(currentFace, numTriangles));
         int sideTwo = int(mod(currentFace + 1.0, numTriangles));
@@ -42,18 +43,32 @@ void main()
         } else {
             vColor = color;
         }
-    }else {
+        gl_Position = proj * view * mv * vec4(vPosition.xyz, 1.0);
+
+    }
+    // half edge
+    else if(mode == 1){
         int side = int(mod(currentFace, numTriangles));
         if(int(vPosition.w) == side){
             vColor = vec4(1.0, 1.0, 1.0, 1.0);
         } else {
             vColor = color;
         }
+        gl_Position = proj * view * mv * vec4(vPosition.xyz, 1.0);
+    }
+    //lines
+    else if(mode == 2){
+        int side = int(mod(currentFace, numTriangles));
+        if(int(vPosition.w) == side){
+            vColor = vec4(1.0, 0.0, 0.0, 1.0);
+        } else {
+            vColor = color;
+        }
+        gl_Position = proj * view * mv * vec4(vPosition.xyz * 1.1, 1.0);
     }
 
     // some per-object matrix ops now done at app level
     // but final matrix chain is processed here
-    gl_Position = proj * view * mv * vec4(vPosition.xyz, 1.0);
 }
   </script>
 
@@ -88,8 +103,12 @@ main()
     <button id="pyramid">Pyramid</button>
     <button id="shape3">Shape 3</button>
     <br/>
+    <br/>
 
-    <div style="color: white; white-space: pre-wrap; text-align: left" id="pseudocode"> text 1</div>
+    <div style="color: white; white-space: pre-wrap; text-align: left; float: left;" id="pseudocode"> text 1</div>
+    <img src="diagram.jpg" style="display: inline-block; margin: auto; width: 25%">
+    <div style="float: right;" id = "table"></div>
+
 </body>
 </html>
 

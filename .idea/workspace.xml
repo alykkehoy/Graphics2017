@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="57b3c38c-9d11-4889-8b84-3f0604dc2a38" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Project/grid.html" afterPath="$PROJECT_DIR$/Project/grid.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Project/grid.js" afterPath="$PROJECT_DIR$/Project/grid.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,8 +19,8 @@
       <file leaf-file-name="grid.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Project/grid.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="889">
-              <caret line="66" column="65" lean-forward="false" selection-start-line="66" selection-start-column="65" selection-end-line="66" selection-end-column="65" />
+            <state relative-caret-position="974">
+              <caret line="104" column="9" lean-forward="true" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
               <folding>
                 <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -173,7 +171,7 @@
       <workItem from="1511209905559" duration="4794000" />
       <workItem from="1511814756898" duration="4113000" />
       <workItem from="1513074181415" duration="11471000" />
-      <workItem from="1513189600512" duration="15794000" />
+      <workItem from="1513189600512" duration="15925000" />
     </task>
     <task id="LOCAL-00001" summary="fixed line clipping from lab6">
       <created>1509496657566</created>
@@ -193,7 +191,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="74028000" />
+    <option name="totallyTimeSpent" value="74159000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1029" y="3" width="1294" height="1407" extended-state="0" />
@@ -598,8 +596,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Project/grid.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="889">
-          <caret line="66" column="65" lean-forward="false" selection-start-line="66" selection-start-column="65" selection-end-line="66" selection-end-column="65" />
+        <state relative-caret-position="974">
+          <caret line="104" column="9" lean-forward="true" selection-start-line="104" selection-start-column="9" selection-end-line="104" selection-end-column="9" />
           <folding>
             <element signature="n#style#0;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
